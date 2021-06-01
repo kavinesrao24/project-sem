@@ -1,3 +1,4 @@
+
 <?php
 session_start();
     // $_SESSION = [];
@@ -5,7 +6,7 @@ require_once '../../BusinessServiceLayer/controller/paymentController.php';
 require_once '../../BusinessServiceLayer/controller/customerController.php';
 require_once '../../BusinessServiceLayer/controller/runnerController.php';
 require_once '../../BusinessServiceLayer/controller/trackingController.php';
-
+require_once '../../BusinessServiceLayer/controller/cartController.php';
 $tracking = new trackingController();
 $tracking_data = $tracking->viewTrackingList();
 $runner_id = "";
@@ -45,33 +46,39 @@ $data = $payment->viewPayment();
 // $data = $cart->viewAll();
 
 
-if (!isset($_SESSION['username'])) {
-  $message = "You must log in first";
-  header('refresh:5; url=../../ApplicationLayer/ManageLoginInterface/login.php');
-  echo "<script type='text/javascript'>alert('$message');
-  window.location = '../view';</script>";
-}
-
 
 ?>
 <!DOCTYPE html>
 <html class="no-js" lang="zxx">
+<head>
+
+<title>Report</title>
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="print.css" media="print">
+<style>
+table.table-dark {
+  border-collapse: collapse;
+  width: 75%;
+  border: 1px solid #ddd;
+}
+</style>
+
+
 <?php include"../../includes/head.php";?>
 <body>
   <div class="wrapper" id="wrapper">
     <?php 
     include "../../includes/header.php";
     ?>
-     <div style="background-image: url('../../images/shopcart.jpg');">
-    <div class="ht__bradcaump__wrap d-flex align-items-center">
-      <div class="container">
+      
         <div class="row">
           <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="bradcaump__inner text-center">
-              <h2 class="bradcaump-title">Service Provider</h2>
+              <h2 class="bradcaump-title"><b>Service Provider</b></h2>
               <nav class="bradcaump-inner">
-                <a class="breadcrumb-item" href="../../ApplicationLayer/ManageMedicalInterface/medicalHome.php">Service Provider</a>
-                <span class="brd-separetor"><i class="zmdi zmdi-long-arrow-right"></i></span>
+                
                 <span class="breadcrumb-item active">Service Provider Report</span>
               </nav>
             </div>
@@ -79,16 +86,15 @@ if (!isset($_SESSION['username'])) {
         </div>
       </div>
     </div>
-    <section class="type__category__area bg--white section-padding--lg">
-      <div class="wrapper wrapper--w790">
-        <div class="card card-5">
+   
+    <div class="container-fluid">
           <div class="card-heading">
             <h2 class="title">Report</h2>
           </div>
           <div class="card-body">
             <center>
               <form action="" method="POST">
-              <table>
+              <table class="table table-bordered table-dark">
                 <thead>
                   <th>Date</th>
                   <th>Customer Name</th>
@@ -98,6 +104,9 @@ if (!isset($_SESSION['username'])) {
                   <th>Runner Name</th>
                   <th>Runner Phone</th>
                   <th>Status</th>
+                  
+                  
+              </div>
                 </thead>
                 <?php
                 if ($row['order_status'] = 1) {
@@ -124,14 +133,27 @@ if (!isset($_SESSION['username'])) {
                     $i++;
                     echo "</tr>";
                     ?>
+
+
                     </form>
                     <?php
                   }
                 }                
                 ?>
+
+
+
+                
               </table>
+              
               <br></br>
+              <div class="text-centre">
+                   <button onclick="window.print();" class="btn btn-primary" id="print-btn">Print</button>
+                </div>
             </form>
+            
+            
+              </div>
 
             </center>
           </div>
@@ -141,6 +163,9 @@ if (!isset($_SESSION['username'])) {
   </center>
 </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>
 
